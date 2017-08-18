@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>Admissions</title>
+    <style>
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        margin: 0 auto;
+      }
+      svg {
+        display: block;
+        margin: 0 auto;
+        max-height: 900px;
+        max-width: 450px;
+      }
+      text {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <% @admissions.each do |admission| %>
+      <% if admission[:layout] %>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          viewBox="0 0 600 1200" preserveAspectRatio="xMidYMid meet">
+          <g>
+            <image x="0" y="0" width="600" height="1200" xlink:href="<%= admission[:background_url] %>" />
+          </g>
+          <%= admission[:layout].html_safe %>
+        </svg>
+      <% end %>
+    <% end %>
+  </body>
+</html>

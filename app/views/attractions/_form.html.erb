@@ -1,0 +1,26 @@
+<%= form_for(attraction) do |f| %>
+  <% if attraction.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(attraction.errors.count, "error") %> prohibited this attraction from being saved:</h2>
+
+      <ul>
+      <% attraction.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <style>
+    input,textarea {
+      display: block;
+    }
+  </style>
+  <%= f.text_field :name, { placeholder: 'name', style: 'width: 50%;' } %>
+  <%= f.text_area :layout, size: '80x20' %>
+  <%= f.text_field :redemption_prefix , { placeholder: 'Redemption Prefix', length: 1 } %>
+  <%= f.number_field :expiry_window, { placeholder: 'Expiry window (seconds)' }%>
+  <%= f.text_field :symbology, { placeholder: 'Barcode symbology' } %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

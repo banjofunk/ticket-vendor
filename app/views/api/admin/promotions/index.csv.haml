@@ -1,0 +1,11 @@
+- require 'csv'
+- headers = ['Promo ID',
+             'Affiliate',
+             'Description',
+             'QTY']
+= CSV.generate_line headers
+- @promotions.each do |promotion|
+  = CSV.generate_line([promotion.id,
+                       promotion.affiliate.name,
+                       promotion.short_description.gsub("\n",' '),
+                       promotion.admissions.where(transaction_id:nil).count])

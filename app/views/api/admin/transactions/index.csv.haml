@@ -1,0 +1,48 @@
+- headers = ['Date',
+             'Time',
+             'Transaction ID',
+             'BrainTree ID',
+             'CCS ID',
+             'Agent',
+             'Access Token',
+             'First Name',
+             'Last Name',
+             'Email',
+             'Phone',
+             'Promo ID',
+             'Company',
+             'Description',
+             'redemption_code',
+             'Tax Summary',
+             'Sku Price (current)',
+             'Sku Taxes (current)',
+             'Sku Total (current)',
+             'Transaction Total']
+= CSV.generate_line headers
+- @admissions.each do |admission|
+  - txn = admission.txn
+  - promotion = admission.promotion
+  - bt_link = "https://www.braintreegateway.com/merchants/#{ENV['BT_MERCHANT_ID']}/transactions/#{admission.txn.details.try(:bt_id)}"
+  - tickets_link = "http://us.ticketingforless.com/t/#{admission.txn.access_token}"
+  - csv_link = '=HYPERLINK("link", "title")'
+  - link = csv_link.gsub("link", bt_link).gsub("title", (admission.txn.details.try(:bt_id) || ''))
+  = CSV.generate_line([admission.txn.created_at.strftime('%m/%d/%Y'),
+                       admission.txn.created_at.in_time_zone("Pacific Time (US & Canada)").strftime('%I:%M%P PST'),
+                       admission.txn.id,
+                       "=HYPERLINK(\"#{bt_link}\", \"#{admission.txn.details.try(:bt_id) || '-'}\")",
+                       admission.txn.ct_id || '-',
+                       admission.txn.agent || '-',
+                       "=HYPERLINK(\"#{tickets_link}\", \"#{txn.access_token || '-'}\")",
+                       admission.txn.details.try(:first_name) || '-',
+                       admission.txn.details.try(:last_name) || '-',
+                       admission.txn.details.try(:email) || '-',
+                       admission.txn.details.try(:normalize_phone) || '-',
+                       promotion.id || '-',
+                       promotion.affiliate.try(:name) || '-',
+                       promotion.short_description.gsub("\n",' ') || '-',
+                       admission.redemption_code.try(:code),
+                       promotion.tax_summary,
+                       promotion.normalize_discount || '-',
+                       promotion.normalize_taxes || '-',
+                       promotion.normalize_total || '-',
+                       admission.txn.details.try(:normalize_total) || '-']).html_safe

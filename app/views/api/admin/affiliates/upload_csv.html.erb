@@ -1,0 +1,6 @@
+<h4><%= @affiliate.name %></h4>
+<h4>Upload redemptions</h4>
+<%= form_tag({action: :bulk_redemptions}, multipart: true) do %>
+  <%= file_field_tag 'csv', { required: true } %>
+  <input type='submit' value='Upload redemptions'/>
+<% end %>

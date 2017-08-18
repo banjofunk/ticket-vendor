@@ -1,0 +1,12 @@
+<%= link_to 'Show this sku', attraction_sku_path(@attraction, @attraction_sku) %> |
+<%= link_to 'View all skus for this attrction', attraction_skus_path(@attraction) %>
+
+<h3>Editing: <%= @attraction_sku.attraction.name %> &mdash; <%= @attraction_sku.description %> </h3>
+
+<%= render 'form', attraction_sku: @attraction_sku %>
+
+<h4>Upload admissions</h4>
+<%= form_tag({action: :bulk_admissions}, multipart: true) do %>
+  <%= file_field_tag 'csv', { required: true } %>
+  <input type='submit' value='Upload admissions'/>
+<% end %>

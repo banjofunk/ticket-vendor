@@ -1,0 +1,3 @@
+- require 'csv'
+- @redemptions.each do |redemption|
+  = CSV.generate_line([redemption.code])

@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+<h3><%= @attraction.name %>: <%= @attraction_sku.description %></h3>
+<div>
+  <%= link_to 'Edit this sku', edit_attraction_sku_path(@attraction, @attraction_sku) %> |
+  <%= link_to 'View all skus for this attraction', attraction_skus_path(@attraction) %>
+</div>
+<dl>
+  <dt>Cost (in cents; 0 means free)</dt>
+  <dd><%= @attraction_sku.cost %></dd>
+  <dt>Redemption Default</dt>
+  <dd><%= @attraction_sku.redemption_default %></dd>
+  <dt>Creates Admission</dt>
+  <dd><%= @attraction_sku.creates_admission %></dd>
+  <dt>Question (this is what CT will display)</dt>
+  <dd><%= @attraction_sku.question %></dd>
+</dl>
+<div>
+  <h4>Background art</h4>
+  <img src="<%= background_attraction_sku_path(@attraction, @attraction_sku) %>"/>
+</div>

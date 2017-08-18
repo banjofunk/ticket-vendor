@@ -1,0 +1,85 @@
+.active-underlined {
+  border-bottom: 2px solid #FF5722 !important;
+}
+
+.underlined {
+  position: relative;
+  color: #FF5722;
+  text-decoration: none;
+  font-size: 24px;
+  display:inline-block;
+}
+
+.underlined:hover {
+  color: #FF5722;
+  background-color: #FFF;
+}
+
+.underlined:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #FF5722;
+  visibility: hidden;
+
+  -webkit-transition: all 0.3s ease-in-out 0s;
+  -moz-transition: all 0.3s ease-in-out 0s;
+  -o-transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;
+
+  -webkit-transform: scaleX(0);
+  -moz-transform: scaleX(0);
+  -o-transform: scaleX(0);
+  transform: scaleX(0);
+}
+
+.underlined:hover:before {
+  visibility: visible;
+  -webkit-transform: scaleX(1);
+  -moz-transform: scaleX(1);
+  -o-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+.contactInput {
+  display: block;
+  margin: 0;
+  margin-top: 5px;
+  width: 100%;
+  font-family: sans-serif;
+  font-size: 18px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  padding: 10px;
+  border: solid 5px #c9c9c9;
+  transition: border 0.3s;
+
+}
+.contactInput:focus {
+  outline: none;
+}
+.contactInput:focus,
+.contactInput.focus {
+  border: solid 5px #969696;
+}
+
+.textEdit{
+  width:100%;
+  text-align:center;
+  font-size:16px;
+  line-height:18px;
+  font-family:Arvo, serif;
+}
+
+.slick-list{
+  overflow: hidden;
+}
+
+.reorder-div{
+  float:left;
+  margin:2px;
+}
