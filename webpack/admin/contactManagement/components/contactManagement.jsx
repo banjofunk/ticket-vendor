@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { BannerManagement } from '../../shared'
 import { deepOrange500 } from 'material-ui/styles/colors'
 import { RIETextArea } from 'riek'
-import {Fieldset, Field, createValue} from 'react-forms'
+// import {Fieldset, Field, createValue} from 'react-forms'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 
@@ -218,7 +218,7 @@ class ContactManagement extends React.Component {
             }
             <div style={{clear:'both', marginTop:25}} />
             <div style={{textAlign:'left'}}>
-              <Fieldset formValue={this.state.formValue}>
+              {/* <Fieldset formValue={this.state.formValue}>
                 <span style={style.inputLabels}>First Name:</span>
                 <Field select="firstName" children={
                   <input
@@ -252,7 +252,7 @@ class ContactManagement extends React.Component {
                       type="text"
                       onChange={this.onChange}
                       placeholder="leave us a message here..." />} />
-              </Fieldset>
+              </Fieldset> */}
             </div>
             <br />
             <RaisedButton

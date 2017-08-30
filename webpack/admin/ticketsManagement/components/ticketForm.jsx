@@ -1,6 +1,6 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import {Fieldset, Field, createValue} from 'react-forms'
+// import {Fieldset, Field, createValue} from 'react-forms'
 import RaisedButton from 'material-ui/RaisedButton'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -238,7 +238,7 @@ class TicketForm extends React.Component {
     return(
       <div style={style.container}>
         <h1 style={{fontSize:'24px', marginTop:20}}>General Ticket Information</h1>
-        <Fieldset ref='ticketForm' formValue={this.state.formValue}>
+        {/* <Fieldset ref='ticketForm' formValue={this.state.formValue}>
           <br />
           <Field select="id" children={
             <input
@@ -330,7 +330,7 @@ class TicketForm extends React.Component {
               floatingLabelText="discounted price"
               onChange={this.onChange}
               value={value} />} />
-        </Fieldset>
+        </Fieldset> */}
         <br />
         <RaisedButton
           label="Update General Ticket Information"

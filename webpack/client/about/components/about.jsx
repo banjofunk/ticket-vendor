@@ -52,8 +52,8 @@ class About extends React.Component {
       const sortBanners = this.props.banners.sort(function(a, b) {
         return parseFloat(a.position) - parseFloat(b.position);
       })
-      for (var banner of sortBanners) {
-        const key = `mainBanner-${banner.position}`
+      for (var banner of this.props.banners) {
+        const key = `mainBanner-${banner.id}`
         mainBanners.push(
           <img key={key} src={banner.src} />
         )
@@ -67,9 +67,9 @@ class About extends React.Component {
           {mainBanners}
         </Slider>
         <div style={style.container}>
-          <SectionHeader sectionTitle={this.props.content.titleText} color={deepOrange500} side='left' />
+          <SectionHeader sectionTitle={'About'} color={deepOrange500} side='left' />
           <div style={{textAlign:'center', margin:'20px auto', width:'80%'}}>
-            <span style={style.headerText}>{this.props.content.mainText}</span>
+            <span style={style.headerText}>{this.props.content.text}</span>
           </div>
           <img src='/assets/logo' style={{width:'200px', margin:'52px 0'}} />
         </div>

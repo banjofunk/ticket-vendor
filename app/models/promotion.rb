@@ -1,21 +1,14 @@
 class Promotion < ApplicationRecord
   include ActionView::Helpers::NumberHelper
-  belongs_to :affiliate
-  has_many :transaction_line_items
-  has_many :promotion_taxes
+  belongs_to :attraction
   has_many :admissions, -> { available }
-  belongs_to :image
-  # has_many :taxes, foreign_key: "promotion_id", class_name: "PromotionTax"
-  has_many :taxes, through: :promotion_taxes
-  has_many :redemption_codes
-  before_save :set_promotion_sort
-  default_scope { includes(:taxes) }
-
+  has_one :promotion_image, -> { promotion_images }, class_name: 'Image', as: :imageable
+  has_and_belongs_to_many :taxes
   default_scope { includes(:taxes) }
 
   scope :active, -> {
-    includes(:affiliate).
-    where(affiliates: { active?: true }).
+    includes(:attraction).
+    where(attractions: { active?: true }).
     where(active?: true).
     order(:position).
     select{ |p| p.admissions.size > 0 || p.call_center? }
@@ -53,18 +46,9 @@ class Promotion < ApplicationRecord
     total = self.calculate_taxes + self.discount_in_cents
     total ? number_to_currency(total.to_f/100) : 'N/A'
   end
-  
+
   def tax_summary
     self.taxes.map(&:summary).join(' | ') || '-'
   end
 
-  private
-  def set_promotion_sort
-    if (self.position < 0)
-      last_position = Promotion.maximum(:position) || 0
-      self.position = last_position.to_i + 1
-    end
-    existitng_sort = Promotion.where(position: self.position).where.not(id: self.id).first
-    existitng_sort.update_attributes(position: self.position + 1) if existitng_sort
-  end
 end

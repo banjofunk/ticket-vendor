@@ -1,6 +1,5 @@
 class Tax < ApplicationRecord
-  has_many :promotion_taxes
-  has_many :promotions, through: :promotion_taxes
+  has_and_belongs_to_many :promotions
 
   KINDS = ['percent', 'flat_fee']
   KINDS.each_with_index.map {|k, i| self.const_set(k.upcase, i)}

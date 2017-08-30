@@ -2,9 +2,6 @@ require 'exceptions'
 
 class Transaction < ApplicationRecord
   has_many :admissions
-  has_many :transaction_line_items
-  has_one :details, foreign_key:'transaction_id', class_name: 'TransactionDetail'
-  has_many :redemption_codes
 
   def grouped_admissions
     grouped_admissions = self.admissions.group_by {|a| a.promotion_id}

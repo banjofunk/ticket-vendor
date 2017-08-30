@@ -15,24 +15,36 @@ const config = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.css$/,
-        loader: 'style!css'
+        use: [
+          {
+            loader: "style-loader"
+          }
+        ]
       },
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
         loader: 'babel-loader',
         query: {
-          presets: ['es2015', 'react', 'stage-0'],
-          plugins: ['react-html-attrs', 'transform-class-properties', 'transform-decorators-legacy', 'transform-es2015-template-literals'],
+          presets: [
+            'es2015',
+            'react',
+            'stage-0'
+          ],
+          plugins: [
+            'react-html-attrs',
+            'transform-class-properties',
+            'transform-decorators-legacy',
+            'transform-es2015-template-literals'
+          ],
         }
       },
       {
         test: /\.scss$/,
-        loader: 'style!css!sass',
-        exclude: /node_modules/,
+        exclude: /(node_modules|bower_components)/,
         use: [
           'style-loader',
           'css-loader',
@@ -54,14 +66,17 @@ const config = {
   },
 
   resolve: {
-    root: path.join(__dirname, '..', 'webpack'),
-    extensions: ['', '.js', '.jsx']
+    modules: [
+      path.join(__dirname, "src"),
+      "node_modules"
+    ],
+    extensions: ['.js', '.jsx']
   },
 
   plugins: [
     // Poly-fills
     new webpack.ProvidePlugin({
-      'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+      'fetch': 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch'
     }),
     // must match config.webpack.manifest_filename
     new StatsPlugin('manifest.json', {

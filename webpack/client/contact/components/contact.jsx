@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import * as actions from '../actions'
 import SectionHeader from '../../home/components/sectionHeader'
 import Slider from 'react-slick'
-import {Fieldset, Field, createValue} from 'react-forms'
+// import {Fieldset, Field, createValue} from 'react-forms'
 import Dialog from 'material-ui/Dialog'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
@@ -181,7 +181,7 @@ class Contact extends React.Component {
             </div>
             <div style={{clear:'both', marginTop:25}} />
             <div style={{textAlign:'left'}}>
-              <Fieldset formValue={this.state.formValue}>
+              {/* <Fieldset formValue={this.state.formValue}>
                 <span style={style.inputLabels}>First Name:</span>
                 <Field select="firstName" children={
                   <input class="contactInput" value={value} type="text" onChange={this.onChange} placeholder="enter your First Name." />} />
@@ -194,7 +194,7 @@ class Contact extends React.Component {
                 <span style={style.inputLabels}>Message:</span>
                 <Field select="message" children={
                     <textarea rows="4" class="contactInput" value={value} type="text" onChange={this.onChange} placeholder="leave us a message here..." />} />
-              </Fieldset>
+              </Fieldset> */}
             </div>
             <br />
             <RaisedButton

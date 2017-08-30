@@ -1,9 +1,12 @@
 import * as t from '../actionTypes'
 import cookie from 'react-cookie'
+import { Cookies } from 'react-cookie'
+
 
 const initialState = {
   promotions: [],
-  cart: cookie.load('cartCookie') || [],
+  cookies: new Cookies(),
+  cart: [],
   promotionsLoaded:false,
   btResponse:{},
   clientToken:"",
@@ -12,6 +15,8 @@ const initialState = {
 
 export default function reducer(
   state=initialState, action) {
+    const cookies = new Cookies()
+    state.cart = cookies.get('cartCookie') || []
 
     switch (action.type) {
       case t.CLIENT_TOKEN_LOADED: {
@@ -48,12 +53,12 @@ export default function reducer(
         }else{
           cart.unshift({id:action.payload.id, qty:1})
         }
-        cookie.save('cartCookie', cart, { path: '/' })
+        cookies.set('cartCookie', cart, { path: '/' })
         return {...state, cart, promotions}
       }
       case t.UPDATE_CART_QTY: {
         const cart = action.payload
-        cookie.save('cartCookie', cart, { path: '/' })
+        cookies.set('cartCookie', cart, { path: '/' })
         return {...state, cart}
       }
       case t.REMOVE_FROM_CART: {
@@ -71,7 +76,7 @@ export default function reducer(
             cart.push(promotion)
           }
         }
-        cookie.save('cartCookie', cart, { path: '/' })
+        cookies.set('cartCookie', cart, { path: '/' })
         return {...state, promotions, cart}
       }
       case t.PROMOTIONS_LOADED: {

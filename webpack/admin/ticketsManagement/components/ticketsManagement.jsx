@@ -30,29 +30,6 @@ class TicketsManagement extends React.Component {
   constructor(props) {
     super(props)
     this._loadTicketsPage()
-    this._createTax = this._createTax.bind(this)
-    this._deleteInventory = this._deleteInventory.bind(this)
-    this._loadTicketsPage = this._loadTicketsPage.bind(this)
-    this._updateMainText = this._updateMainText.bind(this)
-    this._savePageContent = this._savePageContent.bind(this)
-    this._cancelPageContent = this._cancelPageContent.bind(this)
-    this._toggleTable = this._toggleTable.bind(this)
-    this._toggleTax = this._toggleTax.bind(this)
-    this._toggleTicketPreview = this._toggleTicketPreview.bind(this)
-    this._toggleTicketForm = this._toggleTicketForm.bind(this)
-    this._toggleActivateRedemption = this._toggleActivateRedemption.bind(this)
-    this._handleFileUpload = this._handleFileUpload.bind(this)
-    this._handleBackgroundUpload = this._handleBackgroundUpload.bind(this)
-    this._submitTicketForm = this._submitTicketForm.bind(this)
-    this._showTicketPreview = this._showTicketPreview.bind(this)
-    this._showTicketForm = this._showTicketForm.bind(this)
-    this._toggleMorePromotion = this._toggleMorePromotion.bind(this)
-    this._toggleActivateCallCenter = this._toggleActivateCallCenter.bind(this)
-    this._toggleActivatePromotion = this._toggleActivatePromotion.bind(this)
-    this._newTicketForm = this._newTicketForm.bind(this)
-    this._onUploadFinish = this._onUploadFinish.bind(this)
-    this._updateLayout = this._updateLayout.bind(this)
-    this._updateSymbology = this._updateSymbology.bind(this)
     this.state = {
       showTable: true,
       showTicketPreview: false,
@@ -76,19 +53,19 @@ class TicketsManagement extends React.Component {
     }
   }
 
-  _createTax(taxData){
+  _createTax = (taxData) => {
     this.props.dispatch(
       actions.createTax(taxData)
     )
   }
 
-  _deleteInventory(id){
+  _deleteInventory = (id) => {
     this.props.dispatch(
       actions.deleteInventory(id)
     )
   }
 
-  _loadTicketsPage(){
+  _loadTicketsPage = () => {
     this.props.dispatch(actions.getPage('tickets'))
     this.props.dispatch(bannerActions.getAllBanners())
     this.props.dispatch(actions.getTickets())
@@ -97,45 +74,45 @@ class TicketsManagement extends React.Component {
     this.props.dispatch(bannerActions.hideBanners(true))
   }
 
-  _updateMainText(value){
+  _updateMainText = (value) => {
     this.props.dispatch(
       actions.updateMainText(value.textarea)
     )
   }
 
-  _toggleTable(){
+  _toggleTable = () => {
     this.setState({showTable: !this.state.showTable})
   }
 
-  _toggleTax(ticketId, taxId, value){
+  _toggleTax = (ticketId, taxId, value) => {
     this.props.dispatch(
       actions.toggleTax(ticketId, taxId, value)
     )
   }
 
-  _updateLayout(id, layout){
+  _updateLayout = (id, layout) => {
     this.props.dispatch(
       actions.updateLayout(id, layout)
     )
   }
 
-  _updateSymbology(id, symbology){
+  _updateSymbology = (id, symbology) => {
     this.props.dispatch(
       actions.updateSymbology(id, symbology)
     )
   }
 
-  _savePageContent(){
+  _savePageContent = () => {
     this.props.dispatch(
       actions.savePageContent(this.props.pageID, this.props.content, this.props.banners)
     )
   }
 
-  _cancelPageContent(){
+  _cancelPageContent = () => {
     this._loadTicketsPage()
   }
 
-  _showTicketPreview(id){
+  _showTicketPreview = (id) => {
     let ticket = this.props.tickets.find(
       function(ticket){
         return ticket.id === parseInt(id)
@@ -144,7 +121,7 @@ class TicketsManagement extends React.Component {
     this.setState({ticket: ticket, showTicketPreview: true})
   }
 
-  _showTicketForm(id){
+  _showTicketForm = (id) => {
     let ticket = this.props.tickets.find(
       function(ticket){
         return ticket.id === parseInt(id)
@@ -153,7 +130,7 @@ class TicketsManagement extends React.Component {
     this.setState({ticket: ticket, showTicketForm: true})
   }
 
-  _newTicketForm(){
+  _newTicketForm = () => {
     const newTicket = {
       id:0,
       position:0,
@@ -170,15 +147,15 @@ class TicketsManagement extends React.Component {
     this.setState({ticket: newTicket, showTicketForm: true})
   }
 
-  _toggleTicketPreview(){
+  _toggleTicketPreview = () => {
     this.setState({showTicketPreview: !this.state.showTicketPreview})
   }
 
-  _toggleTicketForm(){
+  _toggleTicketForm = () => {
     this.setState({showTicketForm: !this.state.showTicketForm})
   }
 
-  _submitTicketForm(value){
+  _submitTicketForm = (value) => {
     if(value.id === 0){
       this.props.dispatch(actions.createTicket(value))
     }else{
@@ -187,7 +164,7 @@ class TicketsManagement extends React.Component {
     this.setState({showTicketForm: false})
   }
 
-  _toggleMorePromotion(id){
+  _toggleMorePromotion = (id) => {
     let ticket = {}
     if(id){
       ticket = this.props.tickets.find(
@@ -200,37 +177,37 @@ class TicketsManagement extends React.Component {
     })
   }
 
-  _toggleActivateRedemption(event, checked, id){
+  _toggleActivateRedemption = (event, checked, id) => {
     this.props.dispatch(
       actions.toggleActivateRedemption(id, checked)
     )
   }
 
-  _toggleActivatePromotion(event, checked, id){
+  _toggleActivatePromotion = (event, checked, id) => {
     this.props.dispatch(
       actions.toggleActivatePromotion(id, checked)
     )
   }
 
-  _toggleActivateCallCenter(event, checked, id){
+  _toggleActivateCallCenter = (event, checked, id) => {
     this.props.dispatch(
       actions.toggleActivateCallCenter(id, checked)
     )
   }
 
-  _handleFileUpload(id, file){
+  _handleFileUpload = (id, file) => {
     this.props.dispatch(
       actions.handleFileUpload(id, file)
     )
   }
 
-  _handleBackgroundUpload(id, file){
+  _handleBackgroundUpload = (id, file) => {
     this.props.dispatch(
       actions.handleBackgroundUpload(id, file)
     )
   }
 
-  _onUploadFinish=(response)=>{
+  _onUploadFinish = (response) => {
     let url = response.signedUrl.split("?")[0]
     this.props.dispatch(
       actions.promoUploadFinished(url)

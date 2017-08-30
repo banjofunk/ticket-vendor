@@ -5,10 +5,7 @@ class Admission < ApplicationRecord
   belongs_to :txn, class_name: 'Transaction', foreign_key: 'transaction_id', optional: true
   has_one :redemption_code
 
-  scope :available, -> {
-    where(transaction_id: nil).
-    order(:id)
-  }
+  scope :available, -> { where(transaction_id: nil) }
 
   def self.csv_import(promotion, io)
     admission_codes = CSV.parse(io.read)

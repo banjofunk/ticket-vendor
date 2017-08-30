@@ -1,19 +1,13 @@
 class Image < ApplicationRecord
-  has_many :banner_collection_images
+  belongs_to :imageable, polymorphic: true
 
-  LOGO = 1
-  BANNER = 2
-  PROMO = 3
+  LOGO = 0
+  BANNER = 1
+  PROMOTION_IMAGE = 2
 
-  scope :banners, -> {
-    where(:kind => BANNER, :active? => true)
-  }
-  scope :logos, -> {
-    where(:kind => LOGO, :active? => true)
-  }
-  scope :promos, -> {
-    where(:kind => PROMO, :active? => true)
-  }
+  scope :banners, -> { where(:kind => BANNER) }
+  scope :logos, -> { where(:kind => LOGO) }
+  scope :promotion_images, -> { where(:kind => PROMOTION_IMAGE) }
 
 
 end

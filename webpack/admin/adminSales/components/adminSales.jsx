@@ -1,7 +1,6 @@
 import { browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import { deepOrange500 } from 'material-ui/styles/colors'
-import { Field } from 'react-forms'
 import * as actions from '../actions'
 import DatePicker from 'material-ui/DatePicker'
 import Dialog from 'material-ui/Dialog'

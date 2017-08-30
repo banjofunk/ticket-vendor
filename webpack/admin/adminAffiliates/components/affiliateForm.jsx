@@ -1,6 +1,6 @@
 import React from 'react'
 import FlatButton from 'material-ui/FlatButton'
-import {Fieldset, Field, createValue} from 'react-forms'
+// import {Fieldset, Field, createValue} from 'react-forms'
 import RaisedButton from 'material-ui/RaisedButton'
 import ReactS3Uploader from 'react-s3-uploader'
 import LogoImagePicker from './logoImagePicker'
@@ -77,7 +77,7 @@ class AffiliateForm extends React.Component {
     let {schema = {}, value, params = {}} = this.state.formValue
     return(
       <div style={style.container}>
-        <Fieldset ref='ticketForm' formValue={this.state.formValue}>
+        {/* <Fieldset ref='ticketForm' formValue={this.state.formValue}>
           <br />
           <Field select="id" children={
             <input
@@ -154,7 +154,7 @@ class AffiliateForm extends React.Component {
               type="text"
               onChange={this.onChange}
               placeholder="prefix" />} />
-        </Fieldset>
+        </Fieldset> */}
         <div style={{float:'right', marginTop:10, position:'relative', left:30}}>
           <FlatButton
             label="Cancel"

@@ -8,7 +8,7 @@ import CartTable from './cart/cartTable'
 import CartTableRow from './cart/cartTableRow'
 import CartTableRedemptionRow from './cart/cartTableRedemptionRow'
 import CcsHeader from './ccsHeader'
-import cookie from 'react-cookie'
+import { Cookies } from 'react-cookie'
 import PromotionsTable from './promotions/promotionsTable'
 import PromotionsTableRow from './promotions/promotionsTableRow'
 import React from 'react'
@@ -28,6 +28,9 @@ import RedemptionSelection from './dialogs/redemptionSelection'
   }
 })
 class Home extends React.Component {
+  static propTypes = {
+    cookies: new Cookies()
+  }
   constructor(props) {
     super(props)
     this._loadHomePage()
@@ -67,7 +70,7 @@ class Home extends React.Component {
     }
   }
   componentWillMount(){
-    let cartCookie = cookie.load('cartCookie')
+    let cartCookie = cookies.get('cartCookie')
     let cart = Array.isArray(cartCookie) ? cartCookie : []
     this.setState({cart})
     this.props.dispatch(actions.getClientToken())
@@ -111,7 +114,7 @@ class Home extends React.Component {
       this.setState({showRedemptionSelection:true})
     }
     if(nextProps.clearCookie){
-      cookie.save('cartCookie', [], {path: '/'})
+      cookies.set('cartCookie', [], {path: '/'})
       this.props.dispatch(actions.checkoutCookieReset())
     }
   }
@@ -152,7 +155,7 @@ class Home extends React.Component {
 
   _addToCart(promotion, qty=1){
     let promotionQty = {...this.state.promotionQty}
-    let cartCookie = cookie.load('cartCookie')
+    let cartCookie = cookies.get('cartCookie')
     let cart = Array.isArray(cartCookie) ? cartCookie : []
     const cartIds = cart.map(function(e){return e.id})
     const promoIdx = cartIds.indexOf(promotion.id)
@@ -163,7 +166,7 @@ class Home extends React.Component {
     }
     promotionQty[promotion.id] = 1
     this.setState({cart, promotionQty})
-    cookie.save('cartCookie', cart, { path: '/' })
+    cookies.set('cartCookie', cart, { path: '/' })
     this.props.dispatch(actions.addToCart(promotion.id))
   }
 
@@ -177,7 +180,7 @@ class Home extends React.Component {
     if(i != -1){
       cart.splice(i, 1)
       this.setState({cart:cart})
-      cookie.save('cartCookie', cart, {path:'/'})
+      cookies.set('cartCookie', cart, {path:'/'})
     }
   }
 
@@ -232,7 +235,7 @@ class Home extends React.Component {
     )
     cartPromotion.qty = parseInt(event.target.value)
     this.setState(newState)
-    cookie.save('cartCookie', newState.cart, {path:'/'})
+    cookies.set('cartCookie', newState.cart, {path:'/'})
   }
 
   _closeDialog(){
