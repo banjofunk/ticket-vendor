@@ -36,8 +36,8 @@ class Api::Admin::TransactionsController < ApplicationController
 
   def admissions_report
     if params[:min_date] && params[:max_date]
-      min_date = Time.at(params[:min_date].to_i).beginning_of_day
-      max_date = Time.at(params[:max_date].to_i).end_of_day
+      min_date = Time.at(params[:min_date].to_i)
+      max_date = Time.at(params[:max_date].to_i)
     else
       min_date = Time.now - 20.days
       max_date = min_date + 1.day

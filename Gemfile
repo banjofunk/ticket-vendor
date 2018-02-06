@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.3.1"
+ruby '2.3.1'
 
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
@@ -10,7 +10,7 @@ gem 'activerecord-import'
 gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
-gem "haml-rails", "~> 0.9"
+gem 'haml-rails', '~> 0.9'
 gem 'html2haml'
 gem 'jbuilder', '~> 2.5'
 gem 'devise', '~>4.2'
@@ -22,7 +22,8 @@ gem 'sidekiq'
 gem 'figaro'
 gem 'webpack-rails'
 gem 'foreman'
-gem "braintree", "~> 2.72.0"
+gem 'braintree', '~> 2.72.0'
+gem 'acts_as_list'
 
 gem 'barby'
 gem 'nokogiri'

@@ -3,7 +3,7 @@ require 'barby/barcode/code_128'
 require 'barby/outputter/svg_outputter'
 
 class PromotionsController < ApplicationController
-  before_action :set_affiliate
+  before_action :set_attraction
   before_action :set_promotion
 
   def background
@@ -20,26 +20,26 @@ class PromotionsController < ApplicationController
       ticket_data: {}
     }
 
-    if (symbology_kind = @affiliate.symbology).present?
+    if (symbology_kind = @attraction.symbology).present?
       symbology = Barby.const_get(symbology_kind)
       canvas_node = Nokogiri::HTML(symbology.new(code).to_svg(height: 120, xdim: 3, margin: 0)).css('#canvas').first
       mustache_params[:barcode] = canvas_node.to_s
     end
 
     admission = {}
-    if @affiliate.layout
+    if @attraction.layout
       admission = {
-        background_url: background_affiliate_promotion_url(@affiliate, @promotion),
-        layout: Mustache.render(@affiliate.layout, mustache_params)
+        background_url: background_attraction_promotion_url(@promotion),
+        layout: Mustache.render(@attraction.layout, mustache_params)
       }
     end
 
     svg = "<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'
       viewBox='0 0 600 1200' preserveAspectRatio='xMidYMid meet'>
       <g>
-        <image x='0' y='0' width='600' height='1200' xlink:href='#{background_affiliate_promotion_url(@affiliate, @promotion)}' />
+        <image x='0' y='0' width='600' height='1200' xlink:href='#{background_attraction_promotion_url(@promotion)}' />
       </g>
-      #{ Mustache.render(@affiliate.layout, mustache_params).html_safe}
+      #{ Mustache.render(@attraction.layout, mustache_params).html_safe}
     </svg>"
 
     respond_to do |format|
@@ -48,12 +48,16 @@ class PromotionsController < ApplicationController
   end
 
   private
-  def set_affiliate
-    @affiliate = Affiliate.find(params[:affiliate_id])
+  def set_attraction
+    if params[:id]
+      @attraction = Promotion.find(params[:id]).try(:attraction)
+    else
+      @attraction = Attraction.find(params[:attraction_id])
+    end
   end
 
   def set_promotion
-    @promotion = @affiliate.promotions.find(params[:id])
+    @promotion = @attraction.promotions.find(params[:id])
   end
 
   def promotion_params
@@ -61,11 +65,11 @@ class PromotionsController < ApplicationController
       .fetch(:promotion, {})
       .permit(
         :background,
-        :retail_in_cents,
-        :discount_in_cents,
+        :msrp,
+        :net_price,
         :description,
         :short_description,
-        :redemption_default
+        :redemption?
       )
   end
 end

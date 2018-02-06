@@ -1,0 +1,26 @@
+@import "~material-colors/dist/colors.scss";
+
+.navbar-container {
+  display:flex;
+  flex-flow: row wrap;
+  flex:1 0 100%;
+}
+
+.headerbar {
+  background-color: $md-deep-orange-500;
+  height: 40px;
+  display:flex;
+  flex-flow: row wrap;
+  flex:1;
+  justify-content: flex-end;
+  .cart-button {
+    height: 40px;
+    margin-right: 20px;
+    .txt-white {
+      color: $md-white;
+    }
+  }
+}
+.main-nav {
+  flex:1 0 100%;
+}

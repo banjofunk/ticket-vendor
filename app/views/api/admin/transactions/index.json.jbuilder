@@ -12,7 +12,7 @@ json.transactions @transactions do |transaction|
   json.phone transaction.details.try(:normalize_phone) if transaction.details.try(:phone)
   json.admissions transaction.grouped_admissions do |admission|
      json.count admission.count
-     json.affiliate admission.affiliate
+     json.attraction admission.attraction
      json.description admission.description
      json.price admission.price
      json.tax admission.tax * admission.count

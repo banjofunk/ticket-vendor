@@ -16,16 +16,16 @@ class Api::Admin::PagesController < ApplicationController
       pagePromotion.save
     end
     data['attractions'].try(:each) do |attraction|
-      pageAttraction = Affiliate.find(attraction['id'].to_i)
+      pageAttraction = Attraction.find(attraction['id'].to_i)
       pageAttraction.attraction_sort = attraction['attraction_sort'].to_i
       pageAttraction.save
-      Affiliate.where('attraction_sort >= ?', 5).map {|a| a.resort_sort += 1; a.save}
+      Attraction.where('attraction_sort >= ?', 5).map {|a| a.resort_sort += 1; a.save}
     end
     data['sponsors'].try(:each) do |sponsor|
-      pageSponsor = Affiliate.find(sponsor['id'].to_i)
+      pageSponsor = Attraction.find(sponsor['id'].to_i)
       pageSponsor.sponsor_sort = sponsor['sponsor_sort'].to_i
       pageSponsor.save
-      Affiliate.where('sponsor_sort >= ?', 5).map {|a| a.resort_sort += 1; a.save}
+      Attraction.where('sponsor_sort >= ?', 5).map {|a| a.resort_sort += 1; a.save}
     end
     render json: true
   end

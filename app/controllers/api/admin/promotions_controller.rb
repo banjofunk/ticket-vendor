@@ -20,19 +20,19 @@ class Api::Admin::PromotionsController < ApplicationController
   def create
     data = JSON.parse(params['json'])['formValue']
     retailFltStr = data['retail'].scan(/(\d|\.)/).join('')
-    retail = sprintf('%.2f', retailFltStr).gsub('.','').to_i
+    retail = sprintf('%.2f', retailFltStr.to_f).gsub('.','').to_i
     discountFltStr = data['discounted'].scan(/(\d|\.)/).join('')
-    discount = sprintf('%.2f', discountFltStr).gsub('.','').to_i
+    discount = sprintf('%.2f', discountFltStr.to_f).gsub('.','').to_i
     @promotion = Promotion.create(
-      affiliate_id: data['affiliate_id'],
+      attraction_id: data['attraction_id'],
       active?:true,
       title: data['title'],
       subtitle: data['subtitle'],
       short_description: data['shortDescription'],
       description: data['description'],
       image_id: data['image_id'],
-      retail_in_cents: retail,
-      discount_in_cents: discount
+      msrp: retail,
+      net_price: discount
     )
     render :show
   end
@@ -42,14 +42,14 @@ class Api::Admin::PromotionsController < ApplicationController
     @promotion = Promotion.find(data['id'])
     @promotion.update_attributes({
       position: data['position'],
-      affiliate_id: data['affiliate_id'],
+      attraction_id: data['attraction_id'],
       image_id: data['image_id'],
       title: data['title'],
       subtitle: data['subtitle'],
       short_description: data['shortDescription'],
       description: data['description'],
-      retail_in_cents: sprintf('%.2f', data['retail']).gsub('.','').to_i,
-      discount_in_cents: sprintf('%.2f', data['discounted']).gsub('.','').to_i
+      msrp: sprintf('%.2f', data['retail']).gsub('.','').to_i,
+      net_price: sprintf('%.2f', data['discounted']).gsub('.','').to_i
     })
     render :show
   end
@@ -59,7 +59,7 @@ class Api::Admin::PromotionsController < ApplicationController
     @promotion = Promotion.find params['promotion_id'].to_i
     @promotion.update_attribute(:call_center?, data['callCenter']) if !data['callCenter'].nil?
     @promotion.update_attribute(:active?, data['active']) if !data['active'].nil?
-    @promotion.update_attribute(:redemption_default, data['redemption']) if !data['redemption'].nil?
+    @promotion.update_attribute(:redemption?, data['redemption']) if !data['redemption'].nil?
     render :show
   end
 
@@ -84,7 +84,7 @@ class Api::Admin::PromotionsController < ApplicationController
   def admissions
     @promotion = Promotion.find(params[:promotion_id])
     @admissions = @promotion.try(:admissions) || []
-    aff_name = @promotion.try(:affiliate).try(:name).gsub(' ','_').downcase
+    aff_name = @promotion.try(:attraction).try(:name).gsub(' ','_').downcase
     promo_name = @promotion.try(:short_description).gsub(' ','_').downcase
     respond_to do |format|
       format.json
@@ -118,7 +118,7 @@ class Api::Admin::PromotionsController < ApplicationController
     params.permit!
     data = JSON.parse(params['json'])
     @promotion = Promotion.find(params[:promotion_id])
-    @promotion.affiliate.update_attributes(layout: data['layout'])
+    @promotion.attraction.update_attributes(layout: data['layout'])
     @promotion.reload
     render :show
   end
@@ -129,7 +129,7 @@ class Api::Admin::PromotionsController < ApplicationController
     @promotion = Promotion.find(params[:promotion_id])
     symbology = data['symbology']
     symbology = nil if symbology === 'none'
-    @promotion.affiliate.update_attributes(symbology: symbology)
+    @promotion.attraction.update_attributes(symbology: symbology)
     @promotion.reload
     render :show
   end

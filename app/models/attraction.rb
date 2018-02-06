@@ -1,30 +1,20 @@
 require 'csv'
 class Attraction < ApplicationRecord
-  has_many :promotions
-  has_many :redemption_codes,  dependent: :destroy
-  has_one :logo, -> { logos }, class_name: 'Image', as: :imageable
+  include Taxable
+  acts_as_list
 
-  scope :active, -> {
-    where(:active? => true)
-  }
-  scope :resorts, -> {
-    where(:resort? => true).
-    where.not(:resort_sort => -1).
-    order(:resort_sort)
-  }
-  scope :sponsors, -> {
-    where(:sponsor? => true).
-    where.not(:sponsor_sort => -1).
-    order(:sponsor_sort)
-  }
-  scope :attractions, -> {
-    where(:attraction? => true).
-    where.not(:attraction_sort => -1).
-    order(:attraction_sort)
-  }
+  has_many :redemption_codes,  dependent: :destroy
+  has_many :promotions
+
+  has_one :logo, -> { of_kind('logo') }, class_name: 'Image', as: :imageable
+  has_one :attraction_image, -> { of_kind('attraction_image') }, class_name: 'Image', as: :imageable
+  accepts_nested_attributes_for :logo, :attraction_image, allow_destroy: true
+
+  scope :active, -> { where(:active? => true) }
+  scope :sponsors, -> { where(:sponsor? => true) }
 
   def redemption_promotion
-    self.promotions.where(redemption_default: true)
+    promotions.where(redemption?: true)
   end
 
   def redemption_import(io)
@@ -34,6 +24,41 @@ class Attraction < ApplicationRecord
     rca.each_slice(500) do |rca_slice|
       RedemptionCode.import([:code, :attraction_id], rca_slice.compact)
     end
+  end
+
+  def to_detail
+    {
+      id: id,
+      name: name,
+      logo: logo.try(:src),
+      active: active?,
+      sponsor: sponsor?,
+      description: description,
+      subtitle: subtitle,
+      layout: layout,
+      redemption_prefix: redemption_prefix,
+      expiry_window: expiry_window,
+      symbology: symbology,
+      position: position,
+      promotions: promotions.map(&:to_summary)
+    }
+  end
+
+  def to_summary
+    {
+      id: id,
+      name: name,
+      logo: logo.try(:src),
+      active: active?,
+      sponsor: sponsor?,
+      description: description,
+      subtitle: subtitle,
+      redemption_prefix: redemption_prefix,
+      expiry_window: expiry_window,
+      symbology: symbology,
+      promotion_image: promotions.first.try(:promotion_image).try(:src),
+      position: position
+    }
   end
 
 end

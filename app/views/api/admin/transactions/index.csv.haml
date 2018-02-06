@@ -38,7 +38,7 @@
                        admission.txn.details.try(:email) || '-',
                        admission.txn.details.try(:normalize_phone) || '-',
                        promotion.id || '-',
-                       promotion.affiliate.try(:name) || '-',
+                       promotion.attraction.try(:name) || '-',
                        promotion.short_description.gsub("\n",' ') || '-',
                        admission.redemption_code.try(:code),
                        promotion.tax_summary,

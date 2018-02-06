@@ -2,6 +2,8 @@ require 'exceptions'
 
 class Transaction < ApplicationRecord
   has_many :admissions
+  has_one :details, foreign_key:'transaction_id', class_name: 'TransactionDetail'
+  has_many :redemption_codes
 
   def grouped_admissions
     grouped_admissions = self.admissions.group_by {|a| a.promotion_id}
@@ -12,9 +14,9 @@ class Transaction < ApplicationRecord
       qty_admissions << OpenStruct.new({
         count:promotionCount,
         id:promotion.id,
-        affiliate: promotion.affiliate.name,
+        attraction: promotion.attraction.name,
         description: promotion.short_description,
-        price: promotion.discount_in_cents.to_f/100,
+        price: promotion.net_price.to_f/100,
         tax: promotion.calculate_taxes.to_f/100,
         total: promotion.apply_taxes.to_f/100
       })
@@ -36,9 +38,9 @@ class Transaction < ApplicationRecord
         promotion = Promotion.find(promo)
         admission = Admission.find_by(txn: nil, promotion: promotion).try(:lock!, true)
         admission.txn = txn
-        affiliate = promotion.affiliate
-        if affiliate.expiry_window.present?
-          admission.expires_at = DateTime.now + affiliate.expiry_window.seconds
+        attraction = promotion.attraction
+        if attraction.expiry_window.present?
+          admission.expires_at = DateTime.now + attraction.expiry_window.seconds
         end
 
         admission.save!
@@ -64,9 +66,9 @@ class Transaction < ApplicationRecord
         redemption_code.update_attributes(admission: admission) unless redemption_code === "COMPIT"
         admission.txn = self
         admission.redemption_code = redemption_code unless redemption_code === "COMPIT"
-        affiliate = promotion.affiliate
-        if affiliate.expiry_window.present?
-          admission.expires_at = DateTime.now + affiliate.expiry_window.seconds
+        attraction = promotion.attraction
+        if attraction.expiry_window.present?
+          admission.expires_at = DateTime.now + attraction.expiry_window.seconds
         end
 
         admission.save!

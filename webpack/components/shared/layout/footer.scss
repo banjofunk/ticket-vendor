@@ -1,0 +1,60 @@
+@import "~material-colors/dist/colors.scss";
+// @include tablet();
+
+.footer-container {
+  background-color:$md-deep-orange-500;
+  padding-bottom: 20px;
+}
+
+.footer-columns {
+  max-width: 1400px;
+  padding-top: 15px;
+  > div {
+    flex:1 0 250px;
+    margin: 10px;
+    text-align: center;
+    .pt-icon.pt-icon-headset{
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+    span { color:white; }
+    &.description {
+      flex:2 0 250px;
+      margin-top: 15px;
+    }
+  }
+}
+
+.footer-phone {
+  font-size: 28px;
+}
+.footer-logo {
+  margin-left: 6px;
+}
+
+.scl-icons {
+  flex: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  .scl-icon {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    margin-left:5px;
+    background-color:white;
+    .icon-link {
+      margin-top: 7px;
+      color:$md-deep-orange-500;
+      font-size: 28px;
+    }
+    img {
+      margin-top: 4px;
+      width:30px;
+      color:$md-deep-orange-500;
+    }
+    &:first-child {
+      margin-left:0;
+    }
+  }
+}

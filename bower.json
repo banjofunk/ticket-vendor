@@ -1,5 +1,5 @@
 {
-  "name": "ticket-vendor",
+  "name": "ticketing-for-less",
   "dependencies": {
     "rails-behaviors": "0.8.1"
   }

@@ -1,13 +1,8 @@
 class Image < ApplicationRecord
   belongs_to :imageable, polymorphic: true
 
-  LOGO = 0
-  BANNER = 1
-  PROMOTION_IMAGE = 2
-
-  scope :banners, -> { where(:kind => BANNER) }
-  scope :logos, -> { where(:kind => LOGO) }
-  scope :promotion_images, -> { where(:kind => PROMOTION_IMAGE) }
-
+  KINDS = %w(logo banner promotion_image attraction_image)
+  KINDS.each_with_index.map {|k, i| self.const_set(k.upcase, i)}
+  scope :of_kind, lambda{ |knd| where kind: KINDS.index(knd.to_s) }
 
 end

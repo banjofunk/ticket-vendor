@@ -18,7 +18,9 @@ class Api::Admin::BannersController < ApplicationController
     data = JSON.parse(params['json'])
     @page = Page.find_by_name(data['page'])
     image = BannerCollectionImage.find(data['id'].to_i)
-    image.delete
+    unless image.banner_collection.banner_collection_images.count == 1
+      image.delete
+    end
   end
 
   def delete_banner

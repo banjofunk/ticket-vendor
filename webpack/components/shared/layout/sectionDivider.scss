@@ -1,0 +1,7 @@
+@import "~material-colors/dist/colors.scss";
+
+.section-divider {
+  flex:1 0 100%;
+  margin-top: -4px;
+  background-color: $md-deep-orange-500;
+}

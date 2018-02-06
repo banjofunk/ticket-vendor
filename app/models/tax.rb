@@ -1,20 +1,21 @@
 class Tax < ApplicationRecord
-  has_and_belongs_to_many :promotions
+  belongs_to :taxable, polymorphic: true
+  has_many :tax_joins
 
-  KINDS = ['percent', 'flat_fee']
-  KINDS.each_with_index.map {|k, i| self.const_set(k.upcase, i)}
+  KINDS = %w(percent flat_fee)
+  KINDS.each_with_index.map {|k, i| const_set(k.upcase, i)}
 
-  def kind_str
-    KINDS[self.kind]
+  def kind
+    KINDS[read_attribute(:kind)]
   end
 
   def summary
-    case self.kind_str
+    case kind
     when 'percent'
-      percent = (self.amount.to_f/10).tap{|x| break x.to_i == x ? x.to_i : x}
-      summary = "#{self.description} - #{percent}%"
+      percent = (amount.to_f/10).tap{|x| break x.to_i == x ? x.to_i : x}
+      summary = "#{description} - #{percent}%"
     when 'flat_fee'
-      summary = "#{self.description} - $#{self.amount.to_f/100}"
+      summary = "#{description} - $#{amount.to_f/100}"
     else
       summary = ''
     end

@@ -10,39 +10,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170609170815) do
+ActiveRecord::Schema.define(version: 20171030165053) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_stat_statements"
+
+  create_table "admission_taxes", force: :cascade do |t|
+    t.integer "kind"
+    t.integer "amount"
+    t.string  "description"
+    t.integer "transaction_taxable_id"
+    t.string  "transaction_taxable_type"
+  end
 
   create_table "admissions", force: :cascade do |t|
     t.string   "code",                        null: false
-    t.integer  "promotion_id"
     t.integer  "transaction_id"
-    t.json     "ticket_data",    default: {}
     t.date     "expires_at"
     t.datetime "created_at"
+    t.integer  "promotion_id"
+    t.json     "ticket_data",    default: {}
   end
 
   create_table "attractions", force: :cascade do |t|
     t.string  "name"
+    t.boolean "active?",                     default: false
+    t.boolean "sponsor?",                    default: false
     t.string  "description"
+    t.string  "subtitle"
     t.text    "layout"
     t.string  "redemption_prefix", limit: 6
     t.integer "expiry_window",               default: 0
     t.string  "symbology"
-    t.boolean "active?",                     default: false
-    t.boolean "attraction?",                 default: false
-    t.boolean "resort?",                     default: false
-    t.boolean "sponsor?",                    default: false
-    t.index ["redemption_prefix"], name: "index_attractions_on_redemption_prefix", using: :btree
+    t.integer "position"
   end
 
   create_table "images", force: :cascade do |t|
-    t.string  "src"
     t.integer "kind"
+    t.boolean "active?",        default: true
+    t.string  "src"
     t.integer "imageable_id"
     t.string  "imageable_type"
+    t.integer "position"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -51,45 +61,48 @@ ActiveRecord::Schema.define(version: 20170609170815) do
   end
 
   create_table "promotions", force: :cascade do |t|
+    t.boolean  "active?",       default: false
+    t.integer  "position",      default: -1
     t.integer  "attraction_id"
     t.string   "title"
     t.string   "description"
     t.integer  "msrp"
-    t.integer  "price"
+    t.integer  "net_price"
     t.binary   "background"
-    t.boolean  "redemption_option", default: false
-    t.boolean  "active?",           default: false
-    t.boolean  "call_center?",      default: false
-    t.boolean  "inventory?",        default: true
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
-  end
-
-  create_table "promotions_taxes", id: false, force: :cascade do |t|
-    t.integer "promotion_id"
-    t.integer "tax_id"
+    t.boolean  "redemption?",   default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "call_center?",  default: false
   end
 
   create_table "redemption_codes", primary_key: "code", id: :string, force: :cascade do |t|
-    t.integer  "attraction_id", null: false
+    t.integer  "attraction_id",  null: false
+    t.integer  "transaction_id"
+    t.datetime "created_at"
     t.integer  "admission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+  end
+
+  create_table "tax_joins", force: :cascade do |t|
+    t.integer "tax_id"
+    t.integer "taxable_id"
+    t.string  "taxable_type"
   end
 
   create_table "taxes", force: :cascade do |t|
     t.integer "kind"
     t.integer "amount"
     t.string  "description"
-    t.boolean "active?",     default: true
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.string   "agent"
     t.string   "access_token"
     t.datetime "first_accessed_at"
     t.string   "first_accessed_from"
     t.datetime "created_at"
+    t.string   "braintree_id"
+    t.string   "email"
+    t.string   "phone"
+    t.integer  "total"
     t.index ["access_token"], name: "index_transactions_on_access_token", using: :btree
   end
 
@@ -114,6 +127,6 @@ ActiveRecord::Schema.define(version: 20170609170815) do
   add_foreign_key "admissions", "promotions"
   add_foreign_key "admissions", "transactions"
   add_foreign_key "promotions", "attractions"
-  add_foreign_key "redemption_codes", "admissions"
   add_foreign_key "redemption_codes", "attractions"
+  add_foreign_key "redemption_codes", "transactions"
 end

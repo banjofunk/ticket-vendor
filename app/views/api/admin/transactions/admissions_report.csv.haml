@@ -21,39 +21,42 @@
              "transaction_total"]
 = CSV.generate_line headers
 - txn_ids = []
+-# http://localhost:5000/api/admin/transactions/admissions_report.csv?min_date=1509519600&max_date=1510763832
 - @admissions.each do |admission|
+  - summary = admission.ticket_data.dig("summary") || {}
+  - promotion = admission.promotion
   - bt_id = admission.ticket_data.dig("summary", "braintree_id") || "NA"
   - bt_link = "https://www.braintreegateway.com/merchants/#{ENV["BT_MERCHANT_ID"]}/transactions/#{bt_id}"
   - access_token = admission.ticket_data.dig("summary", "access_token") || admission.txn.access_token
   - tickets_link = "http://us.ticketingforless.com/t/#{access_token}"
-  - all_taxes = Tax.all.map {|t| admission.ticket_data.dig("summary", "taxes", t.id.to_s) || "$0.00"}
+  - all_taxes = Tax.all.map {|t| summary["redemption_code"] != '-' ? '-' : promotion.calculate_tax(t)}
   = CSV.generate_line([admission.txn.created_at.in_time_zone("Pacific Time (US & Canada)").strftime('%m/%d/%Y %I:%M%P %Z'),
-    admission.ticket_data.dig("summary", "agent"),
-    admission.ticket_data.dig("summary", "transaction_id"),
+    summary["agent"],
+    summary["transaction_id"],
     "=HYPERLINK(\"#{tickets_link}\", \"#{access_token || "-"}\")",
     "=HYPERLINK(\"#{bt_link}\", \"#{bt_id}\")",
-    admission.ticket_data.dig("summary", "reservation_code"),
-    admission.ticket_data.dig("summary", "redemption_code"),
-    admission.ticket_data.dig("summary", "first_name"),
-    admission.ticket_data.dig("summary", "last_name"),
-    admission.ticket_data.dig("summary", "email"),
-    admission.ticket_data.dig("summary", "phone"),
-    admission.ticket_data.dig("summary", "promo_id"),
-    admission.ticket_data.dig("summary", "company"),
-    admission.ticket_data.dig("summary", "description"),
-    admission.ticket_data.dig("summary", "tax_summary"),
+    summary["reservation_code"],
+    summary["redemption_code"],
+    summary["first_name"],
+    summary["last_name"],
+    summary["email"],
+    summary["phone"],
+    summary["promo_id"],
+    summary["company"],
+    summary["description"],
+    summary["tax_summary"],
     all_taxes,
-    admission.ticket_data.dig("summary", "sku_price"),
-    admission.ticket_data.dig("summary", "sku_taxes"),
-    admission.ticket_data.dig("summary", "sku_total"),
-    admission.ticket_data.dig("summary", "transaction_total")].flatten).html_safe
+    summary["sku_price"],
+    summary["sku_taxes"],
+    summary["sku_total"],
+    "$#{summary["transaction_total"]}"].flatten).html_safe
   - unless txn_ids.index(admission.txn.id) || admission.txn.details.try(:total_in_cents) === 0
     - txn = admission.txn
     - txn_ids << txn.id
     - bt_id = txn.details.try(:bt_id)
     - bt_link = "https://www.braintreegateway.com/merchants/#{ENV["BT_MERCHANT_ID"]}/transactions/#{bt_id}"
     - tickets_link = "http://us.ticketingforless.com/t/#{txn.access_token}"
-    - all_taxes = Tax.all.map {|t| "$0.00"}
+    - all_taxes = Tax.all.map {''}
     = CSV.generate_line([txn.created_at.in_time_zone("Pacific Time (US & Canada)").strftime('%m/%d/%Y %I:%M%P %Z'),
       '-',
       txn.id,
@@ -69,8 +72,8 @@
       'Fees:',
       'Transaction Fee',
       '-',
-      all_taxes,
+      Tax.all.map {'-'},
       "$1.99",
       "$0.00",
       "$1.99",
-      (txn.details.try(:total_in_cents) || 0).to_f/100].flatten).html_safe
+      "$#{(txn.details.try(:total_in_cents) || 0).to_f/100}"].flatten).html_safe

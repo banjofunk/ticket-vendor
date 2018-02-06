@@ -10,12 +10,31 @@ const production = process.env.NODE_ENV === 'production'
 
 const config = {
   entry: {
-    // Sources are expected to live in $app_root/webpack
     'application': './webpack/application.js'
   },
 
   module: {
     rules: [
+      {
+        test: /\.(woff|woff2)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: 'fonts/[hash].[ext]',
+            limit: 5000,
+            mimetype: 'application/font-woff'
+          }
+        }
+      },
+      {
+        test: /\.(ttf|eot|svg)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[hash].[ext]'
+          }
+        }
+      },
       {
         test: /\.css$/,
         use: [
@@ -46,28 +65,25 @@ const config = {
         test: /\.scss$/,
         exclude: /(node_modules|bower_components)/,
         use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
+          {loader: "style-loader"},
+          {loader: "css-loader"},
+          {loader: "sass-loader",
+            options: {includePaths: ["./webpack/style"]}
+          }
         ]
       }
     ]
   },
 
   output: {
-    // Build assets directly in to public/webpack/, let webpack know
-    // that all webpacked assets start with webpack/
-
-    // must match config.webpack.output_dir
     path: path.join(__dirname, '..', 'public', 'webpack'),
     publicPath: '/webpack/',
-
     filename: production ? '[name]-[chunkhash].js' : '[name].js'
   },
 
   resolve: {
     modules: [
-      path.join(__dirname, "src"),
+      path.join(__dirname, '..', 'webpack'),
       "node_modules"
     ],
     extensions: ['.js', '.jsx']
@@ -87,22 +103,23 @@ const config = {
       modules: false,
       assets: true
     })]
-};
+}
+
+config.plugins.push(
+  new webpack.NoEmitOnErrorsPlugin()
+)
 
 if (production) {
   config.plugins.push(
-    new webpack.NoErrorsPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: { warnings: false },
-      sourceMap: false
-    }),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify('production') }
     }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin()
   );
 } else {
+  config.plugins.push(
+    new webpack.NamedModulesPlugin()
+  )
   config.devServer = {
     port: devServerPort,
     headers: { 'Access-Control-Allow-Origin': '*' }

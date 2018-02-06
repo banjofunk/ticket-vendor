@@ -1,0 +1,92 @@
+
+.pt-tabs {
+  flex:1;
+  .pt-tab-list {
+    width:150px;
+  }
+  .pt-tab-panel {
+    flex:1;
+    margin: 5px auto;
+  }
+}
+
+.panels-container{
+  flex: 1;
+  min-height:300px;
+}
+
+
+.tabs-container {
+  flex: 0 1 800px;
+}
+
+.progress-container{
+  flex: 1 0 100%;
+  margin: 40px auto;
+}
+
+.progressbar {
+  margin: 0 auto;
+  padding: 0;
+  counter-reset: step;
+}
+.progressbar li {
+  list-style-type: none;
+  width: 33%;
+  float: left;
+  font-size: 12px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0D47A1;
+}
+.progressbar li:before {
+  width: 30px;
+  height: 30px;
+
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  counter-increment: step;
+  line-height: 30px;
+  border: 2px solid #80DEEA;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.progressbar li[icon='cart']:before {
+  content: "\f07a";
+}
+.progressbar li[icon='payment']:before {
+  content: "\f09d";
+}
+.progressbar li[icon='ticket']:before {
+  content: "\f145";
+}
+
+.progressbar li:after {
+  width: 100%;
+  height: 2px;
+  content: '';
+  position: absolute;
+  background-color: #80DEEA;
+  top: 15px;
+  left: -50%;
+  z-index: -1;
+}
+.progressbar li:first-child:after {
+  content: none;
+}
+.progressbar li.active {
+  color: #D84315;
+}
+.progressbar li.active:before {
+  border-color: #ff5722;
+}
+.progressbar li.active + li:after {
+  background-color: #FF8A65;
+}
