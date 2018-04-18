@@ -1,7 +1,7 @@
 # README
 
 ## Ticket Vendor
-#### Build with Rails and React.js.</h4>
+#### Built with Rails and React.js.</h4>
 
 [Demo Site](https://ticket-vendor.herokuapp.com/)
 
