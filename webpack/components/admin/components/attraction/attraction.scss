@@ -1,0 +1,81 @@
+@import "~style/partials/variables";
+
+.admin-attraction-page {
+  min-height: 550px;
+  .attraction-card {
+    max-width: 800px;
+    margin: 10px auto;
+  }
+  .attraction-form {
+    width:600px;
+    margin:auto;
+    textarea {
+      height:100px;
+    }
+    .img-label {
+      float: left;
+      margin-left: 7%;
+      width: 40%;
+      img {
+        width: 100%;
+        border: solid thin #ccc;
+      }
+    }
+    .img-uploader{
+      overflow: hidden;
+      position: relative;
+      background: $base-color-800;
+      color:white;
+      width:100%;
+      text-align: center;
+      border-radius: .5em;
+      float: left;
+      padding: .5em;
+    }
+    .img-uploader [type=file] {
+      cursor: pointer;
+      filter: alpha(opacity=0);
+      height: 31px;
+      min-width: 100%;
+      opacity: 0;
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
+    }
+    .clearfix {
+      clear:both;
+    }
+  }
+}
+.spinner {
+  margin: 20px 50%;
+}
+.attraction-page-container {
+  max-width: 1300px;
+  margin: 10px auto;
+  text-align: center;
+  .description-container {
+    font-size: 18px;
+    margin: 20px;
+  }
+  .logo-container {
+    width:100%;
+    margin: 10px auto;
+  }
+  .promotions-table {
+    margin: 10px auto;
+    tr { height: 50px;}
+    td {
+      vertical-align: middle;
+    }
+    .background img{
+      height:100px;
+    }
+    .new-promotion { width: 60px;}
+  }
+  .attraction-form {
+    text-align: center;
+  }
+
+}

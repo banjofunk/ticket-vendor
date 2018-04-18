@@ -1,0 +1,22 @@
+.login-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.login-form {
+  float: right;
+  display: flex;
+}
+.login-input {
+  width: 150px;
+  margin: 5px;
+}
+.auth-error {
+  display: inline;
+  position: relative;
+  top: 12px;
+  padding: 5px;
+  background-color: red;
+  span {
+    color: white;
+  }
+}

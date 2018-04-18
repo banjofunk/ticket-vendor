@@ -1,0 +1,13 @@
+@import "~style/partials/variables";
+
+.page-layout {
+  background-color: $base-color-5;
+  display: flex;
+  flex-flow: column nowrap;
+  min-height: 100vh;
+  width: 100%;
+
+  .page-content {
+    flex: 1 0 auto;
+  }
+}

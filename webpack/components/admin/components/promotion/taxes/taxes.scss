@@ -1,0 +1,23 @@
+.tax-container{
+  max-width: 800px;
+  margin:10px auto;
+  position:relative;
+  .fade-enter {
+    opacity: 0.01;
+  }
+  .fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 300ms ease-in;
+  }
+  .fade-exit {
+    display:none;
+  }
+  .tax-actions {
+    text-align: right;
+    width:80px;
+  }
+  .tax-form {
+    max-width: 400px;
+    
+  }
+}

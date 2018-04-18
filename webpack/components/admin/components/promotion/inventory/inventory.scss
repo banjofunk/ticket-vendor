@@ -1,0 +1,11 @@
+.inventory-container {
+  text-align: center;
+  margin:auto;
+  max-width: 800px;
+  .inventory-actions {
+    margin: 4px;
+  }
+  .file-uploader, .file-downloader{
+    display: none;
+  }
+}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ticket Vendor</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag *webpack_asset_paths('application', extension: 'css') %>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <%= javascript_include_tag *webpack_asset_paths('application', extension: 'js') %>
+    <%= javascript_include_tag 'application' %>
+  </body>
+</html>

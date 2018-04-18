@@ -1,0 +1,31 @@
+@import "~style/partials/variables";
+
+.admin-promotion-page {
+  background-color: $base-color-5;
+  form {
+    max-width:600px;
+    margin:auto;
+    .form-actions {
+      margin: 20px 0;
+      button {
+        margin-left:5px;
+      }
+      a {
+        width:100%;
+        margin-right:5px;
+      }
+    }
+  }
+  table {
+    max-width:600px;
+    margin: auto;
+    tr td { vertical-align: middle; }
+    .logo {
+      text-align: center;
+      img { height: 50px; }
+    }
+    .promotions { text-align: center; }
+    .active { margin-top: 10px;}
+    .new-tax { width: 60px;}
+  }
+}

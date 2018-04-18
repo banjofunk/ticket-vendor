@@ -1,0 +1,3 @@
+- require 'csv'
+- @admissions.each do |admission|
+  = CSV.generate_line([admission.code])

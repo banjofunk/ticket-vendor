@@ -1,0 +1,42 @@
+@import "~style/partials/variables";
+
+.section-header {
+  width:100%;
+  display: flex;
+  flex-flow: row wrap;
+  padding-bottom: 10px;
+  margin-bottom:10px;
+  .header-text {
+    flex: 100%;
+    font-size: 37px;
+    line-height: 43px;
+    font-weight: 500;
+    text-align:center;
+    margin: 10px;
+    display: inline;
+    a:hover {
+      text-decoration: none;
+    }
+    .pt-button[class*="pt-icon-"]{
+      min-height:33px;
+      height:33px;
+      margin-bottom: 5px;
+      &::before {
+        font-size: 30px;
+      }
+    }
+  }
+  .page-break {
+    flex: 50%;
+    order:1;
+    &.active-side {
+      border-bottom: 4px solid $base-color;
+    }
+    &.right {
+      order:2
+    }
+  }
+  .back-button {
+    display: inline;
+  }
+}

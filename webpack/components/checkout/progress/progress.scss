@@ -1,0 +1,57 @@
+.progress-container{
+  width:100%;
+  max-width: 800px;
+  margin: 40px auto;
+}
+.progress-bar {
+  margin: 0 auto;
+  padding: 0;
+  width:100%;
+  counter-reset: step;
+}
+.progress-item {
+  list-style-type: none;
+  width: 33%;
+  float: left;
+  font-size: 12px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  color: #0D47A1;
+  &:before {
+    width: 30px;
+    height: 30px;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    counter-increment: step;
+    line-height: 30px;
+    border: 2px solid #80DEEA;
+    display: block;
+    text-align: center;
+    margin: 0 auto 10px auto;
+    border-radius: 50%;
+    background-color: white;
+  }
+  &:after {
+    width: 90%;
+    height: 2px;
+    content: '';
+    position: absolute;
+    background-color: #80DEEA;
+    top: 15px;
+    left: -45%;
+    z-index: 0;
+  }
+  &.active {
+    color: #D84315;
+    a { color: #D84315; }
+    &:before { border-color: #ff5722; }
+    &:after { background-color: #FF8A65; }
+  }
+  &:first-child:after { content: none; }
+  &[icon='cart']:before { content: "\f07a"; }
+  &[icon='payment']:before { content: "\f09d"; }
+  &[icon='tickets']:before { content: "\f145"; }
+}

@@ -1,0 +1,64 @@
+@import "~style/partials/variables";
+
+.home-content {
+  width:100%;
+  max-width: 1300px;
+  text-align: center;
+  margin: 10px auto;
+  .attraction-card {
+    width: 244px;
+    height: 384px;
+    padding:2px;
+    display: inline-block;
+    position: relative;
+    margin: 5px;
+    border: solid thin #999;
+
+  }
+  .attraction-container {
+    width: 100%;
+    background-color: white;
+    .header-img {
+      width: 100%;
+      height: 240px;
+      background-color: white;
+    }
+    .title {
+      position: absolute;
+      top: 214px;
+      border-top-right-radius: 25px;
+      border-bottom-right-radius: 25px;
+      padding-right: 5px;
+      width: 173px;
+      height: 52px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: $base-color;
+    }
+    .title-text {
+      font-size: 18px;
+      line-height: 20px;
+      font-weight: 600;
+      position: relative;
+      vertical-align: middle;
+      white-space: normal;
+      left: 5px;
+      color: white;
+    }
+    .logo-container {
+      width: 100%;
+      text-align: center;
+    }
+    .logo {
+      height: 90px;
+      position: relative;
+      top: 35px;
+      margin-top: -9px;
+    }
+  }
+  .pt-spinner {
+    margin: 5px 50%;
+  }
+}

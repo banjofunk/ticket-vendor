@@ -1,0 +1,12 @@
+.about-card {
+  max-width: 800px;
+  text-align: center;
+  margin: 20px auto;
+  .about-content {
+    max-width: 600px;
+    margin: auto;
+    p {
+      font-size: 16px;
+    }
+  }
+}

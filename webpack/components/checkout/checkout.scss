@@ -1,0 +1,37 @@
+.checkout-card {
+  max-width: 800px;
+  margin:auto;
+  .qty-input {
+    width: 37px;
+  }
+
+  .total-row {
+    font-weight: bold;
+    .total-qty{
+      text-align: center;
+    }
+    .total-cost{
+      min-width: 80px;
+    }
+  }
+
+  .pt-tabs {
+    flex:1;
+    .pt-tab-list {
+      width:150px;
+    }
+    .pt-tab-panel {
+      flex:1;
+      margin: 5px auto;
+    }
+  }
+
+  .panels-container{
+    flex: 1;
+    min-height:300px;
+  }
+
+  .tabs-container {
+    flex: 0 1 800px;
+  }
+}

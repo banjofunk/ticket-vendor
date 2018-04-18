@@ -1,0 +1,59 @@
+@import "~style/partials/variables";
+
+.footer-container {
+  background-color: $base-color;
+  padding-bottom: 20px;
+}
+
+.footer-columns {
+  display: flex;
+  max-width: 1300px;
+  margin: auto;
+  padding-top: 15px;
+  > div {
+    flex:1 0 250px;
+    margin: 10px;
+    text-align: center;
+    .pt-icon.pt-icon-headset{
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+    span { color:white; }
+    &.description {
+      flex:2 0 250px;
+      margin-top: 25px;
+    }
+  }
+}
+
+.footer-phone {
+  font-size: 28px;
+}
+.footer-logo {
+  margin-left: 6px;
+}
+
+.scl-icons {
+  flex: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  .scl-icon {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    margin-left:5px;
+    background-color:white;
+    .icon {
+      margin-top: 6px;
+      color:$base-color;
+      font-size: 26px;
+    }
+  }
+}
+
+.fa-phone-square {
+  color: white;
+  font-size: 26px;
+
+}

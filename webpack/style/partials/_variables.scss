@@ -1,0 +1,15 @@
+@import "~material-colors/dist/colors.scss";
+
+$font: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+$icon-font-path: "~@blueprintjs/core/resources/icons";
+$tablet-width: 768px;
+$desktop-width: 1024px;
+$pt-navbar-height:120px;
+
+$base-color: $md-blue-500;
+$base-color-800: $md-blue-800;
+$base-color-400: $md-blue-400;
+$base-color-50: $md-blue-50;
+$base-color-5: #F6F8FA;
+
+$base-background: white;

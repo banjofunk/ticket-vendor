@@ -1,0 +1,7 @@
+@import "~style/partials/variables";
+
+.section-divider {
+  flex:1 0 100%;
+  margin-top: -4px;
+  background-color: $md-blue-500;
+}
